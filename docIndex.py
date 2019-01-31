@@ -44,6 +44,33 @@ for name in files:
                 if word not in stop_words_set:
                     print(word)
 """
-         
+"""
+#unit test: print each file to make sure there are no weird strings being encountred
+filepath = 'cs172data/file06.txt'
+with open(filepath) as fp:
+    for line in fp:
+        for word in line.split():
+            print(word)
+"""
+
+#Create list of tuples
+filepath = 'cs172data/*.txt'
+files = glob.glob(filepath)
+fileID = 0
+termList = list()
+for name in files:
+    fileID += 1
+    with open(name) as fp:
+        for line in fp:
+             for word in line.split():
+                if word not in stop_words_set:
+                    #is indentation the only way to determine scope of if stmt?
+                    x = (word, fileID)
+                    termList.append(x)
+                    
+for item in termList:
+    print(item)
+
+
 
 
