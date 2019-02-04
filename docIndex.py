@@ -112,14 +112,6 @@ for key in docIndex.items():
     print("Doc #" + str(key[0]) + "-> numTerms: " + str(key[1]))
 """
 
-# unit test: open stoplist.txt and store into a set
-stop_words_set = set()
-filepath = 'stoplist.txt'
-with open(filepath) as fp:
-    for line in fp:
-        for word in line.split():
-            stop_words_set.add(word)
-
 
 
 # function that filters uwantwed characters
@@ -135,6 +127,19 @@ def filterSpecialChar(word):
 # unit test: print each file to make sure there are no weird strings being encountred
 # unit test: use regex search to replace a '-' witha ' ' and split two-word terms
 # unit test: create a translator that converts punctuation to None or ""
+# unit test: open stoplist.txt and store into a set
+stop_words_set = set()
+path = 'stoplist.txt'
+with open(path) as fp:
+    for line in fp:
+        for word in line.split():
+            stop_words_set.add(word.lower())
+
+print(stop_words_set)
+
+
+
+
 docIndex = dict()
 dash = '-'
 http = 'http'
@@ -150,6 +155,7 @@ for name in files:
         for line in fp:
             words = filter(filterSpecialChar , line.split())
             for word in words:
+                word = word.lower()
                 if word not in stop_words_set:
                     # check if '-' in word and 'http' not in word
                     if re.search(dash, word) and not re.search(http, word):
@@ -159,12 +165,12 @@ for name in files:
                         for term in wordSet.split():
                             count += 1
                             filtered_term = term.translate(translator)
-                            x = (filtered_term.lower(), fileID)
+                            x = (filtered_term, fileID)
                             termList.append(x)
                     else:
                         count += 1
                         filtered_term = word.translate(translator)
-                        x = (filtered_term.lower(), fileID)
+                        x = (filtered_term, fileID)
                         termList.append(x)
         docIndex[fileID] = count
 
