@@ -144,7 +144,7 @@ docIndex = dict()
 dash = '-'
 http = 'http'
 translator = str.maketrans( '' , '' , string.punctuation)
-filepath = 'cs172data/*.txt'
+filepath = 'data/*.txt'
 files = sorted(glob.glob(filepath))
 fileID = 0
 termList = list()
@@ -209,7 +209,7 @@ def display_term_data(termIndex, docIndex, term):
         for postings in termIndex[term]:
             #what items to i need to compute tf, idf, & tf-idf?
             tf = postings[1]/docIndex[postings[0]] #num_occur/doc_size
-            idf = math.log(20/len(termIndex[term]), 2)
+            idf = math.log(len(docIndex)/len(termIndex[term]), 2)
             tf_idf = tf*idf
             print('for this posting: Doc#' + str(postings[0]) + ', tf: ' + str(tf) + ', idf: ' + str(idf) + ', tf-idf: ' + str(tf_idf))
     else:
@@ -219,13 +219,13 @@ def display_term_data(termIndex, docIndex, term):
             
 
 
-print('Enter \'sudoquit\' to exit')
+print('Please enter a single-word query. Enter \'sudoquit\' to exit')
 s = input()
 while s != 'sudoquit':
     
     display_term_data(termIndex, docIndex, s)
     
-    print('Enter \'sudoquit\' to exit')
+    print('Please enter a single-word query. Enter \'sudoquit\' to exit')
     s = input()
 
 
