@@ -116,7 +116,7 @@ for key in docIndex.items():
 
 # function that filters uwantwed characters
 def filterSpecialChar(word):
-    sChars = [ '\x00' ,'\x00\x00' , '\x00\x00\x00' ]
+    sChars = [ '&' , '\x00' ,'\x00\x00' , '\x00\x00\x00' ]
 
     if(word not in sChars):
         return True
@@ -135,7 +135,7 @@ with open(path) as fp:
         for word in line.split():
             stop_words_set.add(word.lower())
 
-print(stop_words_set)
+# print(stop_words_set)
 
 
 
@@ -145,14 +145,17 @@ dash = '-'
 http = 'http'
 translator = str.maketrans( '' , '' , string.punctuation)
 filepath = 'cs172data/*.txt'
-files = glob.glob(filepath)
+files = sorted(glob.glob(filepath))
 fileID = 0
 termList = list()
 for name in files:
+    #print(name)
     fileID += 1
+    #print(fileID)
     with open(name) as fp:
         count = 0
         for line in fp:
+            
             words = filter(filterSpecialChar , line.split())
             for word in words:
                 word = word.lower()
@@ -208,22 +211,22 @@ def display_term_data(termIndex, docIndex, term):
             tf = postings[1]/docIndex[postings[0]] #num_occur/doc_size
             idf = math.log(20/len(termIndex[term]), 2)
             tf_idf = tf*idf
-            print('for this posting, tf: ' + str(tf) + ', idf: ' + str(idf) + ', tf-idf: ' + str(tf_idf))
+            print('for this posting: Doc#' + str(postings[0]) + ', tf: ' + str(tf) + ', idf: ' + str(idf) + ', tf-idf: ' + str(tf_idf))
     else:
         print('Term not found')
 
 
             
 
-term = 'phone'
 
-
+print('Enter \'sudoquit\' to exit')
 s = input()
 while s != 'sudoquit':
-    print(s)
+    
     display_term_data(termIndex, docIndex, s)
+    
+    print('Enter \'sudoquit\' to exit')
     s = input()
-
 
 
 
